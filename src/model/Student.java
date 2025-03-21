@@ -1,8 +1,6 @@
 package model;
 
-import java.util.Comparator;
-
-public class Student {
+public class Student implements Comparable<Student> {
     private final int groupNumber;       // Номер группы
     private final double averageGrade;   // Средний балл
     private final int recordBookNumber;  // Номер зачетной книжки
@@ -27,19 +25,18 @@ public class Student {
         return recordBookNumber;
     }
 
-    // Статический метод для получения компаратора по номеру группы
-    public static Comparator<Student> byGroupNumber() {
-        return Comparator.comparingInt(Student::getGroupNumber);
-    }
-
-    // Статический метод для получения компаратора по среднему баллу
-    public static Comparator<Student> byAverageGrade() {
-        return Comparator.comparingDouble(Student::getAverageGrade);
-    }
-
-    // Статический метод для получения компаратора по номеру зачетной книжки
-    public static Comparator<Student> byRecordBookNumber() {
-        return Comparator.comparingInt(Student::getRecordBookNumber);
+    // Реализация Comparable для сортировки
+    @Override
+    public int compareTo(Student other) {
+        int groupComparison = Integer.compare(this.groupNumber, other.groupNumber);
+        if (groupComparison != 0) {
+            return groupComparison;
+        }
+        int gradeComparison = Double.compare(this.averageGrade, other.averageGrade);
+        if (gradeComparison != 0) {
+            return gradeComparison;
+        }
+        return Integer.compare(this.recordBookNumber, other.recordBookNumber);
     }
 
     // Реализация Builder

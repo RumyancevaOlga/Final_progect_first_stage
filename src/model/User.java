@@ -1,8 +1,6 @@
 package model;
 
-import java.util.Comparator;
-
-public class User {
+public class User implements Comparable<User> {
     private final String name;     // Имя
     private final String password; // Пароль
     private final String email;    // Почта
@@ -27,19 +25,18 @@ public class User {
         return email;
     }
 
-    // Статический метод для получения компаратора по имени
-    public static Comparator<User> byName() {
-        return Comparator.comparing(User::getName);
-    }
-
-    // Статический метод для получения компаратора по паролю
-    public static Comparator<User> byPassword() {
-        return Comparator.comparing(User::getPassword);
-    }
-
-    // Статический метод для получения компаратора по почте
-    public static Comparator<User> byEmail() {
-        return Comparator.comparing(User::getEmail);
+    // Реализация Comparable для сортировки
+    @Override
+    public int compareTo(User other) {
+        int nameComparison = this.name.compareTo(other.name);
+        if (nameComparison != 0) {
+            return nameComparison;
+        }
+        int passwordComparison = this.password.compareTo(other.password);
+        if (passwordComparison != 0) {
+            return passwordComparison;
+        }
+        return this.email.compareTo(other.email);
     }
 
     // Реализация Builder
@@ -78,3 +75,4 @@ public class User {
                 '}';
     }
 }
+

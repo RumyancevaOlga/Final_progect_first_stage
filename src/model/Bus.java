@@ -2,7 +2,8 @@ package model;
 
 import java.util.Comparator;
 
-public class Bus {
+public class Bus implements Comparable<Bus>{
+
     private final int number;       // Номер
     private final String model;     // Модель
     private final double mileage;   // Пробег
@@ -27,19 +28,17 @@ public class Bus {
         return mileage;
     }
 
-    // Статический метод для получения компаратора по номеру
-    public static Comparator<Bus> byNumber() {
-        return Comparator.comparingInt(Bus::getNumber);
-    }
-
-    // Статический метод для получения компаратора по модели
-    public static Comparator<Bus> byModel() {
-        return Comparator.comparing(Bus::getModel);
-    }
-
-    // Статический метод для получения компаратора по пробегу
-    public static Comparator<Bus> byMileage() {
-        return Comparator.comparingDouble(Bus::getMileage);
+    @Override
+    public int compareTo(Bus other) {
+        int numberComparison = Integer.compare(this.number, other.number);;
+        if (numberComparison != 0) {
+            return numberComparison;
+        }
+        int modelComparison = this.model.compareTo(other.model);
+        if (modelComparison != 0) {
+            return modelComparison;
+        }
+        return Double.compare(this.mileage, other.mileage);
     }
 
     // Реализация Builder
