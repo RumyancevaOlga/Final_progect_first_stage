@@ -1,16 +1,18 @@
 package collection;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
-public class CustomArrayList<T> {
+public class CustomArrayList<T> implements Iterable{
     private static final int DEFAULT_CAPACITY = 10; // Начальная емкость массива
-    private Object[] elements; // Массив для хранения элементов
+    private T[] elements; // Массив для хранения элементов
     private int size; // Текущее количество элементов в списке
 
     // Конструктор по умолчанию
     public CustomArrayList() {
-        this.elements = new Object[DEFAULT_CAPACITY];
+        this.elements = (T[]) new Object[DEFAULT_CAPACITY];
         this.size = 0;
     }
 
@@ -19,7 +21,7 @@ public class CustomArrayList<T> {
         if (initialCapacity < 0) {
             throw new IllegalArgumentException("Initial capacity cannot be negative: " + initialCapacity);
         }
-        this.elements = new Object[initialCapacity];
+        this.elements = (T[]) new Object[initialCapacity];
         this.size = 0;
     }
 
@@ -118,5 +120,31 @@ public class CustomArrayList<T> {
         result = 31 * result + Arrays.hashCode(elements);
         return result;
     }
-}
 
+    @Override
+    public Iterator<T> iterator() {
+        return new CustomIterator();
+    }
+
+    private class CustomIterator implements Iterator<T> {
+        private int currentIndex = 0;
+
+        @Override
+        public boolean hasNext() {
+            return currentIndex < size;
+        }
+
+        @Override
+        public T next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException("No more elements in the collection");
+            }
+            return elements[currentIndex++];
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("Remove operation is not supported"); // Optional
+        }
+    }
+}
