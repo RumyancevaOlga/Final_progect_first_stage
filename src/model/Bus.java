@@ -9,7 +9,7 @@ public class Bus implements Comparable<Bus>{
     private final double mileage;   // Пробег
 
     // Приватный конструктор для Builder
-    private Bus(Builder builder) {
+    public Bus(Builder builder) {
         this.number = builder.number;
         this.model = builder.model;
         this.mileage = builder.mileage;
