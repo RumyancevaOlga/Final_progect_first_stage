@@ -18,6 +18,7 @@ public class Main {
         buses.add(new Bus.Builder().number(222).model("Porsche").mileage(15000.5).build());
         buses.add(new Bus.Builder().number(510).model("Lada").mileage(21060.3).build());
         buses.add(new Bus.Builder().number(612).model("Lada").mileage(3004.12).build());
+        buses.add(new Bus.Builder().number(208).model("Reno").mileage(32400.1).build());
         // Выводим список до сортировки
         System.out.println("Автобусы до сортировки:");
         System.out.println(buses);
