@@ -1,9 +1,12 @@
 import collection.CustomArrayList;
+import fill.BusManualInputHandler;
+import fill.InputHandler;
+import fill.ManualInputService;
 import model.Bus;
 import model.Student;
 import model.User;
 import sort.SelectionSort;
-
+import validation.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -27,29 +30,5 @@ public class Main {
         // Выводим список после сортировки
         System.out.println("\nАвтобусы после сортировки:");
         System.out.println(buses);
-
-        // Пример для Student
-        CustomArrayList<Student> students = new CustomArrayList<>();
-        students.add(new Student.Builder().groupNumber(1).averageGrade(4.5).recordBookNumber(23785).build());
-        students.add(new Student.Builder().groupNumber(2).averageGrade(3.2).recordBookNumber(45678).build());
-        students.add(new Student.Builder().groupNumber(3).averageGrade(4.7).recordBookNumber(12456).build());
-        students.add(new Student.Builder().groupNumber(3).averageGrade(3.0).recordBookNumber(56748).build());
-        System.out.println("Студенты до сортировки:");
-        System.out.println(students);
-        SelectionSort.selectionSort(students);
-        System.out.println("\nСтуденты после сортировки:");
-        System.out.println(students);
-
-        // Пример для User
-        CustomArrayList<User> users = new CustomArrayList<>();
-        users.add(new User.Builder().name("Alina").password("Password123").email("AlinaLina@yandex.ru").build());
-        users.add(new User.Builder().name("Ivan").password("MyPassword").email("IvanKugrashov1987@gmail.com").build());
-        users.add(new User.Builder().name("Marya").password("PasswordMy").email("LukretskayaMaria98@rambler.com").build());
-        users.add(new User.Builder().name("Vasya").password("MyUniqPassword").email("Vasilii1995@mail.ru").build());
-        System.out.println("\nПользователи до сортировки:");
-        System.out.println(users);
-        SelectionSort.selectionSort(users);
-        System.out.println("\nПользователи после сортировки:");
-        System.out.println(users);
     }
 }
