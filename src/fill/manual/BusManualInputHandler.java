@@ -1,5 +1,6 @@
-package fill;
+package fill.manual;
 
+import fill.InputHandler;
 import model.Bus;
 import validation.BusValidator;
 import validation.ValidationException;
