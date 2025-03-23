@@ -5,6 +5,7 @@ import collection.CustomArrayList;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 public class FileReaderCsv {
 
@@ -14,29 +15,24 @@ public class FileReaderCsv {
         return data;
     }
 
-    public CustomArrayList readFile(String path, int size) throws IOException {
+    public CustomArrayList<String[]> readFile(String path) throws IOException {
         data = new CustomArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(path, Charset.forName("Cp866")))) {
             String line;
             if ((line = br.readLine()) == null) {
                 System.out.println("Пустой файл!");
-                return null;
+                return data;
             }
-            else if ((line = br.readLine()) != null) {
-                for (int i = 0; i < size ; i++) {
-                    if (line != null) {
-                        String[] values = line.split(";");
-                        data.add(values);
-                    }
+            else {
+                while (line != null) {
+                    String[] values = line.split(";");
+                    data.add(values);
                     line = br.readLine();
                 }
             }
-            if (data.size() < size) {
-                System.out.printf("В файле мало данных. Количество строк: %d\n", data.size());
-            }
         } catch (IOException e) {
             System.err.format("IOException: %s%n", e);
-            return null;
+            return data;
         }
         return data;
     }

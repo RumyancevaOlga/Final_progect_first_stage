@@ -1,14 +1,13 @@
 package fill.file;
 
 import collection.CustomArrayList;
-import fill.file.FileReaderCsv;
 import fill.InputHandler;
-import model.Bus;
+import model.User;
 
-public class BusFileFill implements InputHandler {
+public class UserFileInputHandler implements InputHandler<User> {
 
     private FileReaderCsv fileReaderCsv;
-    private CustomArrayList<Bus> buses;
+    private int count = 1;
 
     public FileReaderCsv getFileReaderCsv() {
         return fileReaderCsv;
@@ -19,17 +18,19 @@ public class BusFileFill implements InputHandler {
     }
 
     @Override
-    public CustomArrayList<Bus> input() {
+    public User input() {
 
         CustomArrayList<String[]> data = fileReaderCsv.getData();
-        buses = new CustomArrayList();
 
         try {
-            for (int i = 0; i < data.size(); i++) {
-                String[] line = data.get(i);
-                buses.add(new Bus.Builder().number(Integer.parseInt(line[0])).model(line[1]).mileage(Double.parseDouble(line[2])).build());
-            }
-            return buses;
+            String[] line = data.get(count);
+            User user = new User.Builder()
+                    .name(line[0])
+                    .password(line[1])
+                    .email(line[2])
+                    .build();
+            count ++;
+            return user;
         } catch (IllegalArgumentException e) {
             System.out.println("Данные в файле не соответствуют необходимым параметрам");
         }
