@@ -38,13 +38,12 @@ public class CustomArrayList<T> implements Iterable{
         return (T) elements[index];
     }
 
+
     // Установка значения элемента по индексу
     @SuppressWarnings("unchecked")
-    public T set(int index, T element) {
+    public void set(int index, T element) {
         checkIndex(index); // Проверка корректности индекса
-        T oldValue = (T) elements[index]; // Сохраняем старое значение
         elements[index] = element; // Устанавливаем новое значение
-        return oldValue; // Возвращаем старое значение
     }
 
     // Удаление элемента по индексу
