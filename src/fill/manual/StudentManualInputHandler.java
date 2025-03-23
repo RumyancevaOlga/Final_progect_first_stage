@@ -30,6 +30,8 @@ public class StudentManualInputHandler implements InputHandler<Student> {
                 return student;
             } catch (ValidationException e) {
                 System.out.println("Ошибка: " + e.getMessage());
+            } catch (NumberFormatException e) {
+                System.out.println("Ошибка: ожидалось число, перепроверьте ввод.");
             }
         }
     }
