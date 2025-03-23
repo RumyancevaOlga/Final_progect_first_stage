@@ -1,4 +1,4 @@
-package fill;
+package fill.generator;
 
 import collection.CustomArrayList;
 import model.Bus;

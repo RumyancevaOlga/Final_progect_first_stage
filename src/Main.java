@@ -7,8 +7,10 @@ import model.User;
 import sort.SelectionSort;
 import validation.*;
 
+import java.io.IOException;
+
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 //        // Создаем CustomArrayList для хранения объектов Bus
 //        CustomArrayList<Bus> buses = new CustomArrayList<>();
 //        // Создаем объекты Bus с разными значениями
