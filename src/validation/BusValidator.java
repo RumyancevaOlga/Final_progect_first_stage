@@ -21,8 +21,8 @@ public class BusValidator implements Validator<Bus> {
         if (!symbol) {
             throw new ValidationException("Модель автобуса должна содержать хотя бы один символ.");
         }
-        if (bus.getMileage() < 0) {
-            throw new ValidationException("Пробег не может быть отрицательным.");
+        if (bus.getMileage() < 0 || bus.getMileage() > 1000000) {
+            throw new ValidationException("Пробег не может быть отрицательным и превышать 1.000.000.");
         }
     }
 }
