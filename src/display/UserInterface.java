@@ -30,9 +30,10 @@ public class UserInterface {
     private final Scanner scanner = new Scanner(System.in);
     private CustomArrayList<?> currentData;
     private int currentDataType;
+    private boolean isRunning = true;
 
     public void menu() throws IOException {
-        while (true) {
+        while (isRunning) {
             printMainMenu();
             int choice = readIntInput("Выберите действие: ", 1, 4);
 
@@ -40,11 +41,14 @@ public class UserInterface {
                 case 1 -> fillDataMenu();
                 case 2 -> performSorting();
                 case 3 -> performSearch();
-                case 4 -> {
-                    continue;
-                }
+                case 4 -> exitProgram();
             }
         }
+    }
+    private void exitProgram() {
+        isRunning = false;
+        scanner.close();
+        System.out.println("Программа завершена");
     }
 
     private void printMainMenu() {
