@@ -24,16 +24,26 @@ public class BusManualInputHandler implements InputHandler<Bus> {
                 String model = scanner.nextLine();
 
                 System.out.print("Введите пробег (Положительное число от 1 до 1.000.000): ");
-                int mileage = Integer.parseInt(scanner.nextLine());
+                String mileageInput = scanner.nextLine();
+                double mileage = Double.parseDouble(mileageInput);
 
-                Bus bus = new Bus.Builder().number(number).model(model).mileage(mileage).build();
+                if (mileage <= 0 || mileage > 1_000_000) {
+                    throw new NumberFormatException("Пробег должен быть от 1 до 1 000 000");
+                }
+
+                Bus bus = new Bus.Builder()
+                        .number(number)
+                        .model(model)
+                        .mileage(mileage)
+                        .build();
+
                 ValidationService.validateData(bus, validator);
-
                 return bus;
+
             } catch (ValidationException e) {
                 System.out.println("Ошибка: " + e.getMessage());
             } catch (NumberFormatException e) {
-                System.out.println("Ошибка: ожидалось число, перепроверьте ввод.");
+                System.out.println("Ошибка: ожидалось положительное число (например, 500 или 500.5).");
             }
         }
     }
