@@ -18,13 +18,13 @@ public class UserManualInputHandler implements InputHandler<User> {
         while (true) {
             try {
                 System.out.print("Введите имя (Только буквы, до 30 символов): ");
-                name = scanner.nextLine();
+                name = scanner.nextLine().trim();
 
                 System.out.print("Введите пароль (Не менее 6 символов): ");
-                password = scanner.nextLine();
+                password = scanner.nextLine().trim();
 
                 System.out.print("Введите email (В формате myemail@gmail.com): ");
-                email = scanner.nextLine();
+                email = scanner.nextLine().trim();
 
                 User user = new User.Builder().name(name).password(password).email(email).build();
                 ValidationService.validateData(user, validator);
@@ -33,7 +33,7 @@ public class UserManualInputHandler implements InputHandler<User> {
             } catch (ValidationException e) {
                 System.out.println("Ошибка: " + e.getMessage());
             } catch (NumberFormatException e) {
-                System.out.println("Ошибка: " + e.getMessage());
+                System.out.println("Ошибка: ожидалось положительное число. Проверьте ввод.");
             }
         }
     }
