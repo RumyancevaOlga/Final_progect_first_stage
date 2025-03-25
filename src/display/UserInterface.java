@@ -30,7 +30,6 @@ public class UserInterface {
     private int currentDataType;
 
     public void menu() throws IOException {
-
         while (true) {
             printMainMenu();
             int choice = readIntInput("Выберите действие: ", 1, 4);
@@ -40,8 +39,7 @@ public class UserInterface {
                 case 2 -> performSorting();
                 case 3 -> performSearch();
                 case 4 -> {
-                    System.out.println("Выход из программы...");
-                    System.exit(0);
+                    continue;
                 }
             }
         }
