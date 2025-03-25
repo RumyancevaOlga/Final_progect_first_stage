@@ -1,36 +1,29 @@
 package fill.file;
 
-import collection.CustomArrayList;
 import fill.InputHandler;
 import model.Student;
+import validation.*;
 
 public class StudentFileInputHandler implements InputHandler<Student> {
 
-    private FileReaderCsv fileReaderCsv;
-    private int count = 1;
+    private final Validator<Student> validator = new StudentValidator();
+    private String[] line;
 
-    public FileReaderCsv getFileReaderCsv() {
-        return fileReaderCsv;
-    }
-
-    public void setFileReaderCsv(FileReaderCsv fileReaderCsv) {
-        this.fileReaderCsv = fileReaderCsv;
-    }
+    public StudentFileInputHandler (String[] line) {this.line = line;}
 
     @Override
     public Student input() {
 
-        CustomArrayList<String[]> data = fileReaderCsv.getData();
-
         try {
-            String[] line = data.get(count);
             Student student = new Student.Builder()
                     .groupNumber(Integer.parseInt(line[0]))
                     .averageGrade(Double.parseDouble(line[1]))
                     .recordBookNumber(Integer.parseInt(line[2]))
                     .build();
-            count ++;
+            ValidationService.validateData(student, validator);
             return student;
+        } catch (ValidationException e) {
+            System.out.println("Ошибка: " + e.getMessage());
         } catch (IllegalArgumentException e) {
             System.out.println("Данные в файле не соответствуют необходимым параметрам");
         }

@@ -23,14 +23,16 @@ public class BusManualInputHandler implements InputHandler<Bus> {
                 System.out.print("Введите модель автобуса: ");
                 String model = scanner.nextLine();
 
-                System.out.print("Введите пробег (Целое положительное число): ");
-                int mileage = Integer.parseInt(scanner.nextLine());
+                System.out.print("Введите пробег (Положительное число): ");
+                double mileage = Double.parseDouble(scanner.nextLine());
 
                 Bus bus = new Bus.Builder().number(number).model(model).mileage(mileage).build();
                 ValidationService.validateData(bus, validator);
 
                 return bus;
             } catch (ValidationException e) {
+                System.out.println("Ошибка: " + e.getMessage());
+            } catch (NumberFormatException e) {
                 System.out.println("Ошибка: " + e.getMessage());
             }
         }
