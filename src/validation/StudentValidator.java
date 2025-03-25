@@ -5,8 +5,8 @@ import model.Student;
 public class StudentValidator implements Validator<Student> {
     @Override
     public void validate(Student student) throws ValidationException {
-        if (student.getGroupNumber() <= 0 || student.getGroupNumber() > 10) {
-            throw new ValidationException("Номер группы должен быть положительным числом в дипазоне от 1 до 10.");
+        if (student.getGroupNumber() <= 0 || student.getGroupNumber() > 100) {
+            throw new ValidationException("Номер группы должен быть положительным числом в дипазоне от 1 до 99.");
         }
         if (student.getAverageGrade() < 0.0 || student.getAverageGrade() > 5.0) {
             throw new ValidationException("Средний балл должен быть от 0 до 5.");
