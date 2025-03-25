@@ -1,7 +1,6 @@
 package fill.manual;
 
 import fill.InputHandler;
-
 import model.Student;
 import validation.*;
 

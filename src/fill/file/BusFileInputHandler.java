@@ -1,36 +1,32 @@
 package fill.file;
 
-import collection.CustomArrayList;
 import fill.InputHandler;
 import model.Bus;
+import validation.BusValidator;
+import validation.ValidationException;
+import validation.ValidationService;
+import validation.Validator;
 
 public class BusFileInputHandler implements InputHandler<Bus> {
 
-    private FileReaderCsv fileReaderCsv;
-    private int count = 1;
+    private final Validator<Bus> validator = new BusValidator();
+    private String[] line;
 
-    public FileReaderCsv getFileReaderCsv() {
-        return fileReaderCsv;
-    }
-
-    public void setFileReaderCsv(FileReaderCsv fileReaderCsv) {
-        this.fileReaderCsv = fileReaderCsv;
-    }
+    public BusFileInputHandler (String[] line) {this.line = line;}
 
     @Override
     public Bus input() {
 
-        CustomArrayList<String[]> data = fileReaderCsv.getData();
-
         try {
-            String[] line = data.get(count);
             Bus bus = new Bus.Builder()
                         .number(Integer.parseInt(line[0]))
                         .model(line[1])
                         .mileage(Double.parseDouble(line[2]))
                         .build();
-            count ++;
+            ValidationService.validateData(bus, validator);
             return bus;
+        } catch (ValidationException e) {
+            System.out.println("Ошибка: " + e.getMessage());
         } catch (IllegalArgumentException e) {
             System.out.println("Данные в файле не соответствуют необходимым параметрам");
         }
