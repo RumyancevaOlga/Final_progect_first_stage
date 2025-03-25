@@ -21,15 +21,11 @@ public class BusManualInputHandler implements InputHandler<Bus> {
                 int number = Integer.parseInt(scanner.nextLine());
 
                 System.out.print("Введите модель автобуса: ");
-                String model = scanner.nextLine();
+                String model = scanner.nextLine().trim();
 
                 System.out.print("Введите пробег (Положительное число от 1 до 1.000.000): ");
                 String mileageInput = scanner.nextLine();
                 double mileage = Double.parseDouble(mileageInput);
-
-                if (mileage <= 0 || mileage > 1_000_000) {
-                    throw new NumberFormatException("Пробег должен быть от 1 до 1 000 000");
-                }
 
                 Bus bus = new Bus.Builder()
                         .number(number)
@@ -43,7 +39,7 @@ public class BusManualInputHandler implements InputHandler<Bus> {
             } catch (ValidationException e) {
                 System.out.println("Ошибка: " + e.getMessage());
             } catch (NumberFormatException e) {
-                System.out.println("Ошибка: ожидалось положительное число (например, 500 или 500.5).");
+                System.out.println("Ошибка: ожидалось положительное число. Проверьте ввод.");
             }
         }
     }
