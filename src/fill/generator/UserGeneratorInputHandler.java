@@ -1,10 +1,11 @@
 package fill.generator;
 
+import fill.InputHandler;
 import model.User;
 
 import java.util.Random;
 
-public class UserGenerator {
+public class UserGeneratorInputHandler implements InputHandler<User> {
     private static final Random RANDOM = new Random();
 //    Создаём список имён
     private static final String[] NAMES = {
@@ -19,7 +20,8 @@ public class UserGenerator {
 //    Создаём список символов
     private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+<>?";
 //    Метод для генерации случайных юзеров
-    public static User randomUser() {
+    @Override
+    public User input() {
         String name = NAMES[RANDOM.nextInt(NAMES.length)]; // Случайное имя из списка имён
         int lengthPass = RANDOM.nextInt(6, 12); // Случайная длина пароля от 6 до 12 символов
         StringBuilder password = new StringBuilder(lengthPass); // Собираем случайный пароль из элементов списка CHARACTERS

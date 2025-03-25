@@ -1,11 +1,11 @@
 package fill.generator;
 
-import collection.CustomArrayList;
+import fill.InputHandler;
 import model.Bus;
 
 import java.util.Random;
 
-public class BusGenerator {
+public class BusGeneratorInputHandler implements InputHandler<Bus> {
     private static final Random RANDOM = new Random();
     private static final String[] MODELS = {
             "ANKAI", "AYATS", "BAW", "DAEWOO", "FOTON", "GOLDEN DRAGON",
@@ -18,7 +18,9 @@ public class BusGenerator {
             "КАМАЗ", "КРОНА", "ЛАЗ", "ЛИАЗ", "МАЗ", "МАЗ-КУПАВА",
             "МАРЗ", "НЕМАН", "НЕФАЗ", "ОЛИМП", "ПАЗ", "ПРОМАВТО",
             "РОАЗ", "СИБИРЬ ТРЕЙЛЕР", "СПЕЦТЕХПРОМ", "УРАЛ", "УРАЛ-КУПАВА"};
-    public static Bus randomBus() {
+
+    @Override
+    public Bus input() {
         int number = RANDOM.nextInt(1,1000); // Случайный номер от 1 до 999
         String model = MODELS[RANDOM.nextInt(MODELS.length)]; // Случайная модель из списка
         int mileage = RANDOM.nextInt(1000000); // Случайный пробег от 0 до 999999
@@ -27,15 +29,5 @@ public class BusGenerator {
                 .model(model)
                 .mileage(mileage)
                 .build();
-    }
-
-//    пример использования:
-    public static void main(String[] args) {
-        CustomArrayList<Bus> buses = new CustomArrayList<>();
-
-        for (int i = 0; i < 10; i++) {
-            buses.add(randomBus());
-        }
-        System.out.println(buses);
     }
 }
