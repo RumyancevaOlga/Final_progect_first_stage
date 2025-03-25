@@ -11,8 +11,8 @@ import fill.manual.UserManualInputHandler;
 import model.Bus;
 import model.Student;
 import model.User;
-import sort.BinarySearch;
-import sort.SelectionSort;
+import algorithms.BinarySearch;
+import algorithms.SelectionSort;
 import strategy.DataFillingStrategy;
 import strategy.FileFillingStrategy;
 import strategy.ManualFillingStrategy;
@@ -30,17 +30,16 @@ public class UserInterface {
     private int currentDataType;
 
     public void menu() throws IOException {
-        
+
         while (true) {
             printMainMenu();
-            int choice = readIntInput("Выберите действие: ", 1, 5);
+            int choice = readIntInput("Выберите действие: ", 1, 4);
 
             switch (choice) {
                 case 1 -> fillDataMenu();
                 case 2 -> performSorting();
                 case 3 -> performSearch();
-                case 4 -> printCurrentData();
-                case 5 -> {
+                case 4 -> {
                     System.out.println("Выход из программы...");
                     System.exit(0);
                 }
@@ -53,8 +52,7 @@ public class UserInterface {
         System.out.println("1. Заполнить массив данных");
         System.out.println("2. Отсортировать данные");
         System.out.println("3. Найти элемент");
-        System.out.println("4. Вывести текущие данные");
-        System.out.println("5. Выйти из программы");
+        System.out.println("4. Выйти из программы");
     }
 
     private void fillDataMenu() {
@@ -112,7 +110,6 @@ public class UserInterface {
         printCurrentData();
         askForNextAction();
     }
-
 
     private void performSearch() {
         if (checkEmptyData()) return;
