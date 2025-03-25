@@ -3,8 +3,10 @@ package display;
 import collection.CustomArrayList;
 import fill.file.StudentFileInputHandler;
 import fill.file.UserFileInputHandler;
-import generator.DataGenerators;
 import fill.file.BusFileInputHandler;
+import fill.generator.BusGeneratorInputHandler;
+import fill.generator.StudentGeneratorInputHandler;
+import fill.generator.UserGeneratorInputHandler;
 import fill.manual.BusManualInputHandler;
 import fill.manual.StudentManualInputHandler;
 import fill.manual.UserManualInputHandler;
@@ -169,7 +171,7 @@ public class UserInterface {
         Map<Integer, DataFillingStrategy<Bus>> strategies = new HashMap<>();
         strategies.put(1, new ManualFillingStrategy<>(this::createBusManually));
         strategies.put(2, new FileFillingStrategy<>(filePath, parts -> new BusFileInputHandler(parts).input()));
-        strategies.put(3, new RandomFillingStrategy<>(DataGenerators.BusGenerator::randomBus));
+        strategies.put(3, new RandomFillingStrategy<>(new BusGeneratorInputHandler()::input));
 
         return strategies.get(method).fillData(size);
     }
@@ -178,7 +180,7 @@ public class UserInterface {
         Map<Integer, DataFillingStrategy<Student>> strategies = new HashMap<>();
         strategies.put(1, new ManualFillingStrategy<>(this::createStudentManually));
         strategies.put(2, new FileFillingStrategy<>(filePath, parts -> new StudentFileInputHandler(parts).input()));
-        strategies.put(3, new RandomFillingStrategy<>(DataGenerators.StudentGenerator::randomStudent));
+        strategies.put(3, new RandomFillingStrategy<>(new StudentGeneratorInputHandler()::input));
 
         return strategies.get(method).fillData(size);
     }
@@ -187,7 +189,7 @@ public class UserInterface {
         Map<Integer, DataFillingStrategy<User>> strategies = new HashMap<>();
         strategies.put(1, new ManualFillingStrategy<>(this::createUserManually));
         strategies.put(2, new FileFillingStrategy<>(filePath, parts -> new UserFileInputHandler(parts).input()));
-        strategies.put(3, new RandomFillingStrategy<>(DataGenerators.UserGenerator::randomUser));
+        strategies.put(3, new RandomFillingStrategy<>(new UserGeneratorInputHandler()::input));
 
         return strategies.get(method).fillData(size);
     }
