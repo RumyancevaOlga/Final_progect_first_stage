@@ -2,7 +2,6 @@ package strategy;
 
 import collection.CustomArrayList;
 
-import java.util.Scanner;
 import java.util.function.Supplier;
 
 public class ManualFillingStrategy<T> implements DataFillingStrategy<T> {

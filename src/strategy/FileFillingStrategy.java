@@ -3,11 +3,9 @@ package strategy;
 
 import collection.CustomArrayList;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.function.Function;
@@ -28,9 +26,14 @@ public class FileFillingStrategy<T> implements DataFillingStrategy<T> {
             List<String> lines = Files.readAllLines(Paths.get(filePath));
             for (int i = 0; i < Math.min(size, lines.size()); i++) {
                 String[] parts = lines.get(i).split(";");
+                T mappedObject = mapper.apply(parts);
+                if (mappedObject != null) {
                 result.add(mapper.apply(parts));
+                }
             }
-        } catch (IOException e) {
+            if (lines.size() < size) System.out.printf("В файле недостаточно данных. Размер массива будет " +
+                    "меньше ожидаемого: %d", lines.size());
+        } catch (IOException | InvalidPathException e) {
             System.out.println("Ошибка чтения файла: " + e.getMessage());
         }
         return result;

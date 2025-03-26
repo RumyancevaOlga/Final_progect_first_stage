@@ -14,7 +14,7 @@ public class StudentManualInputHandler implements InputHandler<Student> {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             try {
-                System.out.print("Введите номер группы (Целое число от 1 до 10): ");
+                System.out.print("Введите номер группы (Целое число от 1 до 99): ");
                 int groupNumber = Integer.parseInt(scanner.nextLine());
 
                 System.out.print("Введите средний балл (Число от 1 до 5): ");
@@ -30,7 +30,7 @@ public class StudentManualInputHandler implements InputHandler<Student> {
             } catch (ValidationException e) {
                 System.out.println("Ошибка: " + e.getMessage());
             } catch (NumberFormatException e) {
-                System.out.println("Ошибка: ожидалось число, перепроверьте ввод.");
+                System.out.println("Ошибка: ожидалось положительное число. Проверьте ввод.");
             }
         }
     }
