@@ -22,7 +22,7 @@ public class UserValidator implements Validator<User> {
 
         // Проверка: email должен соответствовать базовому шаблону электронной почты
         if (!user.getEmail().matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
-            throw new ValidationException("Неверный формат email.");
+            throw new ValidationException("Неверный формат email. Корректный формат: myemail@gmail.com.");
         }
     }
 }
