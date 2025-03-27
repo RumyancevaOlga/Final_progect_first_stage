@@ -118,7 +118,7 @@ public class UserInterface {
         System.out.println("4. Вернуться в главное меню");
 
         //Выбираем дальнейшее действие: сортировка, поиск или назад
-        int choice = readIntInput("Выберите действие: ", 1, 3);
+        int choice = readIntInput("Выберите действие: ", 1, 4);
         switch (choice) {
             case 1 -> typeSorting();
             case 2 -> performSearch();
