@@ -118,7 +118,7 @@ public class UserInterface {
         System.out.println("4. Вернуться в главное меню");
 
         //Выбираем дальнейшее действие: сортировка, поиск или назад
-        int choice = readIntInput("Выберите действие: ", 1, 3);
+        int choice = readIntInput("Выберите действие: ", 1, 4);
         switch (choice) {
             case 1 -> typeSorting();
             case 2 -> performSearch();
@@ -249,6 +249,7 @@ public class UserInterface {
         strategies.put(3, new RandomFillingStrategy<>(new BusGeneratorInputHandler()::input));
 
         isSorted = false;
+        searchResult = -2;
 
         return strategies.get(method).fillData(size); //Возвращает CustomArrayList<Bus> с заполненными данными
     }
@@ -268,6 +269,7 @@ public class UserInterface {
         strategies.put(3, new RandomFillingStrategy<>(new StudentGeneratorInputHandler()::input));
 
         isSorted = false;
+        searchResult = -2;
 
         return strategies.get(method).fillData(size);
     }
@@ -282,6 +284,7 @@ public class UserInterface {
         strategies.put(3, new RandomFillingStrategy<>(new UserGeneratorInputHandler()::input));
 
         isSorted = false;
+        searchResult = -2;
 
         return strategies.get(method).fillData(size);
     }
