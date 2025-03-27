@@ -38,12 +38,9 @@ public class FileFillingStrategy<T> implements DataFillingStrategy<T> {
                 //Проверяем if (mappedObject != null), чтобы избежать NullPointerException.
                 if (mappedObject != null) {
                     //Добавляем объект в result
-                result.add(mapper.apply(parts));
+                    result.add(mapper.apply(parts));
                 }
             }
-            //Если в файле меньше строк, чем size, выводим предупреждение.
-            if (lines.size() < size) System.out.printf("В файле недостаточно данных. Размер массива будет " +
-                    "меньше ожидаемого: %d", lines.size());
             //Если произошла ошибка (IOException или InvalidPathException), выводим сообщение
         } catch (IOException | InvalidPathException e) {
             System.out.println("Ошибка чтения файла: " + e.getMessage());

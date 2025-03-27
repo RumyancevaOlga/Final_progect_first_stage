@@ -1,0 +1,19 @@
+21:29:06 27/03/2025
+Bus{number=79, model='СИБИРЬ ТРЕЙЛЕР', mileage=205495.0}
+Bus{number=241, model='КАМАЗ', mileage=932309.0}
+Bus{number=430, model='SOLARIS', mileage=421648.0}
+Bus{number=467, model='ZHONGTONG', mileage=917922.0}
+Bus{number=526, model='СПЕЦТЕХПРОМ', mileage=743005.0}
+Looking  for the item is found in the position: 2
+21:41:16 27/03/2025
+Student{groupNumber=1, averageGrade=3.5, recordBookNumber=78313}
+Student{groupNumber=1, averageGrade=4.5, recordBookNumber=24635}
+Student{groupNumber=3, averageGrade=4.7, recordBookNumber=16372}
+Student{groupNumber=4, averageGrade=3.0, recordBookNumber=90123}
+Student{groupNumber=5, averageGrade=4.9, recordBookNumber=12235}
+Looking  for the item is found in the position: 3
+21:43:48 27/03/2025
+User{name='Barbara', password='QhVkYcN^L', email='Barbara@zoho.com'}
+User{name='Jessica', password='AW3^@@q@ev', email='Jessica@gmail.com'}
+User{name='John', password='CTBRd4Op>$d', email='John@outlook.com'}
+Looking  for the item is found in the position: 2
