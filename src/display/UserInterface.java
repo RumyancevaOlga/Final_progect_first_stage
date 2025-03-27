@@ -1,5 +1,6 @@
 package display;
 
+import algorithms.CustomSort;
 import collection.CustomArrayList;
 import fill.file.StudentFileInputHandler;
 import fill.file.UserFileInputHandler;
@@ -21,6 +22,7 @@ import strategy.ManualFillingStrategy;
 import strategy.RandomFillingStrategy;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -102,11 +104,33 @@ public class UserInterface {
 
         int choice = readIntInput("Выберите действие: ", 1, 3);
         switch (choice) {
-            case 1 -> performSorting();
+            case 1 -> typeSorting();
             case 2 -> performSearch();
             case 3 -> {}
         }
     }
+
+    private void typeSorting() {
+        System.out.println("\nВыберите тип сортировки:");
+        System.out.println("1. Сортировка по умолчанию");
+        System.out.println("2. Пользовательская сортировка");
+        System.out.println("3. Вернуться в главное меню");
+
+        int choiceSort = readIntInput("Выберите действие: ", 1, 3);
+        switch (choiceSort) {
+            case 1 -> performSorting();
+            case 2 -> customSorting();
+            case 3 -> {}
+        }
+    }
+
+    private void customSorting() {
+        if (checkEmptyData()) return;
+        customSortCurrentData();
+        printCurrentData();
+        askForNextAction();
+    }
+
 
     private void performSorting() {
         if (checkEmptyData()) return;
@@ -119,6 +143,20 @@ public class UserInterface {
         if (checkEmptyData()) return;
         searchCurrentData();
         askForNextAction();
+    }
+
+    private void customSortCurrentData() {
+        switch (currentDataType) {
+            case 1 -> CustomSort.customSort(
+                    (CustomArrayList<Bus>) currentData,
+                    Comparator.comparingInt(Bus::getNumber),
+                    Bus::getNumber);
+            case 2 -> CustomSort.customSort(
+                    (CustomArrayList<Student>) currentData,
+                    Comparator.comparingInt(Student::getGroupNumber),
+                    Student::getGroupNumber);
+            case 3 -> System.out.println("Сортировка невозможна: У класса \"User\" нет числового поля.");
+        }
     }
 
     private void sortCurrentData() {

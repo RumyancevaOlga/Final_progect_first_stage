@@ -1,10 +1,8 @@
 package algorithms;
 
 import collection.CustomArrayList;
-import model.Student;
 
 import java.util.Comparator;
-import java.util.Random;
 import java.util.function.ToIntFunction;
 
 public class CustomSort {
@@ -45,31 +43,4 @@ public class CustomSort {
             }
         }
     }
-//  Пример:
-//    public static void main(String[] args) {
-//        final Random RANDOM = new Random();
-//        CustomArrayList<Student> studentList = new CustomArrayList<>();
-//        for (int i = 0; i < 10; i++) {
-//            int groupNumber = RANDOM.nextInt(1,100);
-//            double averageGrade = RANDOM.nextDouble(2,5);
-//            averageGrade = Math.round(averageGrade * 10) / 10.0;
-//            int recordBookNumber = RANDOM.nextInt(1000, 10000);
-//            Student stu = new Student.Builder()
-//                    .groupNumber(groupNumber)
-//                    .averageGrade(averageGrade)
-//                    .recordBookNumber(recordBookNumber)
-//                    .build();
-//            studentList.add(stu);
-//            System.out.println(stu);
-//        }
-//        customSort(
-//                studentList,
-//                Comparator.comparingInt(Student::getGroupNumber),
-//                Student::getGroupNumber
-//        );
-//        System.out.println("Sorted studentList: ");
-//        for (int i = 0; i < studentList.size(); i++) {
-//            System.out.println(studentList.get(i));
-//        }
-//    }
 }
