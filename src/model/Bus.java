@@ -1,12 +1,10 @@
 package model;
 
-import java.util.Comparator;
-
 public class Bus implements Comparable<Bus>{
 
-    private final int number;       // Номер
-    private final String model;     // Модель
-    private final double mileage;   // Пробег
+    private final int number;
+    private final String model;
+    private final double mileage;
 
     // Приватный конструктор для Builder
     private Bus(Builder builder) {
@@ -15,7 +13,6 @@ public class Bus implements Comparable<Bus>{
         this.mileage = builder.mileage;
     }
 
-    // Геттеры
     public int getNumber() {
         return number;
     }
@@ -29,6 +26,7 @@ public class Bus implements Comparable<Bus>{
     }
 
     @Override
+    //Сравниваем текущий объект с переданным в качестве парметра, вызывая compareTo на своем объкте
     public int compareTo(Bus other) {
         int numberComparison = Integer.compare(this.number, other.number);;
         if (numberComparison != 0) {

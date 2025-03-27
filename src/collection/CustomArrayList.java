@@ -32,32 +32,26 @@ public class CustomArrayList<T> implements Iterable{
     }
 
     // Получение элемента по индексу
-    @SuppressWarnings("unchecked")
     public T get(int index) {
         checkIndex(index); // Проверка корректности индекса
         return (T) elements[index];
     }
 
-
     // Установка значения элемента по индексу
-    @SuppressWarnings("unchecked")
     public void set(int index, T element) {
         checkIndex(index); // Проверка корректности индекса
         elements[index] = element; // Устанавливаем новое значение
     }
 
     // Удаление элемента по индексу
-    @SuppressWarnings("unchecked")
     public T remove(int index) {
         checkIndex(index); // Проверка корректности индекса
-        T removedElement = (T) elements[index];
-
+        T removedElement = (T) elements[index]; //Удаляем эл и сохраняем его
         // Сдвигаем элементы влево, чтобы заполнить пустоту
         int numMoved = size - index - 1;
         if (numMoved > 0) {
             System.arraycopy(elements, index + 1, elements, index, numMoved);
         }
-
         elements[--size] = null; // Очищаем последний элемент и уменьшаем размер
         return removedElement;
     }
@@ -86,7 +80,7 @@ public class CustomArrayList<T> implements Iterable{
     // Проверка корректности индекса
     private void checkIndex(int index) {
         if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+            throw new IndexOutOfBoundsException("Индекс: " + index + ", Размер: " + size);
         }
     }
 
@@ -121,18 +115,30 @@ public class CustomArrayList<T> implements Iterable{
     }
 
     @Override
+    //Метод iterator() — часть интерфейса Iterable<T>,
+    // который нужно реализовать, чтобы CustomArrayList<T> можно было перебирать в for-each цикле.
     public Iterator<T> iterator() {
+        //Возвращает новый экземпляр CustomIterator, который будет управлять перебором элементов.
         return new CustomIterator();
     }
 
+//CustomIterator — внутренний класс, реализующий интерфейс Iterator<T>.
+// Он должен реализовать методы hasNext(), next(), remove().
     private class CustomIterator implements Iterator<T> {
+        //Запоминает текущий индекс при обходе списка (изначально 0)
         private int currentIndex = 0;
 
+        //hasNext Проверяет, есть ли ещё элементы в списке.
+    //Возвращает true, если currentIndex меньше size (размера списка).
+    //Иначе возвращает false, означая, что элементы закончились.
         @Override
         public boolean hasNext() {
             return currentIndex < size;
         }
 
+        //Возвращает текущий элемент массива elements[currentIndex].
+    //Увеличивает currentIndex (++), чтобы перейти к следующему элементу.
+    //Если элементов больше нет (!hasNext()), бросает исключение NoSuchElementException.
         @Override
         public T next() {
             if (!hasNext()) {
@@ -141,9 +147,10 @@ public class CustomArrayList<T> implements Iterable{
             return elements[currentIndex++];
         }
 
+    //Удаление элементов не поддерживается → бросается UnsupportedOperationException.
         @Override
         public void remove() {
-            throw new UnsupportedOperationException("Remove operation is not supported"); // Optional
+            throw new UnsupportedOperationException("Удаление не поддерживается");
         }
     }
 }
