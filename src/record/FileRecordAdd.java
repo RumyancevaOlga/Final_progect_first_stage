@@ -33,9 +33,7 @@ public class FileRecordAdd {
                     Files.write(path, strToByte, StandardOpenOption.APPEND);
                 }
                 // записываем результат поиска
-                str = STR."""
-        Looking  for the item is found in the position: \{searchElem}
-        """;
+                str = "Looking  for the item is found in the position: " + searchElem + "\n";
                 strToByte = str.getBytes();
                 Files.write(path, strToByte, StandardOpenOption.APPEND);
                 flag = false;
