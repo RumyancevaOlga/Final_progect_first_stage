@@ -31,7 +31,6 @@ public class FileRecordAdd {
                     str = customArrayList.get(i).toString() + "\n";
                     strToByte = str.getBytes();
                     Files.write(path, strToByte, StandardOpenOption.APPEND);
-                    flag = false;
                 }
                 // записываем результат поиска
                 str = STR."""
@@ -39,6 +38,7 @@ public class FileRecordAdd {
         """;
                 strToByte = str.getBytes();
                 Files.write(path, strToByte, StandardOpenOption.APPEND);
+                flag = false;
 
             } catch (IOException | InvalidPathException e) {
                 System.out.println("Ошибка записи в файл: " + e.getMessage());
