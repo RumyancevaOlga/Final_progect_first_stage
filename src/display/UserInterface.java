@@ -16,12 +16,14 @@ import model.Student;
 import model.User;
 import algorithms.BinarySearch;
 import algorithms.SelectionSort;
+import record.FileRecordAdd;
 import strategy.DataFillingStrategy;
 import strategy.FileFillingStrategy;
 import strategy.ManualFillingStrategy;
 import strategy.RandomFillingStrategy;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +35,8 @@ public class UserInterface {
     private CustomArrayList<?> currentData; // Текущий набор данных (Bus/Student/User)
     private int currentDataType;  // Тип данных (1-Bus, 2-Student, 3-User)
     private boolean isRunning = true;  // Флаг работы программы
+    private boolean isSorted = false; // Флаг на сортировку
+    private int searchResult = -2; // Флаг на поиск
 
     public void menu() throws IOException {
         while (isRunning) {  // Главный цикл программы
@@ -60,7 +64,7 @@ public class UserInterface {
         System.out.println("4. Выйти из программы");
     }
 
-    private void fillDataMenu() {
+    private void fillDataMenu() throws IOException {
         System.out.println("\n=== Выбор типа данных ===");
         System.out.println("1. Автобусы (Bus)");
         System.out.println("2. Студенты (Student)");
@@ -106,22 +110,24 @@ public class UserInterface {
     }
 
     //Снова спрашиваем, что хотят сделать дальше
-    private void askForNextAction() {
+    private void askForNextAction() throws IOException {
         System.out.println("\nЧто вы хотите сделать дальше?");
         System.out.println("1. Отсортировать данные");
         System.out.println("2. Найти элемент");
-        System.out.println("3. Вернуться в главное меню");
+        System.out.println("3. Записать данные сортировки и поиска в файл");
+        System.out.println("4. Вернуться в главное меню");
 
         //Выбираем дальнейшее действие: сортировка, поиск или назад
         int choice = readIntInput("Выберите действие: ", 1, 3);
         switch (choice) {
             case 1 -> typeSorting();
             case 2 -> performSearch();
-            case 3 -> {}
+            case 3 -> fileRecordAdd();
+            case 4 -> {}
         }
     }
 
-    private void typeSorting() {
+    private void typeSorting() throws IOException {
         System.out.println("\nВыберите тип сортировки:");
         System.out.println("1. Сортировка по умолчанию");
         System.out.println("2. Пользовательская сортировка");
@@ -136,7 +142,7 @@ public class UserInterface {
         }
     }
 
-    private void customSorting() {
+    private void customSorting() throws IOException {
         if (checkEmptyData()) return; //Проверка наличия данных
         customSortCurrentData(); //Выполнение кастомной сортировки
         printCurrentData(); // Вывод отсортированных данных
@@ -144,14 +150,14 @@ public class UserInterface {
     }
 
 
-    private void performSorting() {
+    private void performSorting() throws IOException {
         if (checkEmptyData()) return;
         sortCurrentData();
         printCurrentData();
         askForNextAction();
     }
 
-    private void performSearch() {
+    private void performSearch() throws IOException {
         if (checkEmptyData()) return;
         searchCurrentData(); //ищет эл и сразу возвращает его
         askForNextAction();
@@ -170,6 +176,7 @@ public class UserInterface {
                     Student::getGroupNumber);
             case 3 -> System.out.println("Сортировка невозможна: У класса \"User\" нет числового поля.");
         }
+        isSorted = true;
     }
 
     //Обычная сортировка текущих данных
@@ -179,6 +186,7 @@ public class UserInterface {
             case 2 -> SelectionSort.selectionSort((CustomArrayList<Student>) currentData);
             case 3 -> SelectionSort.selectionSort((CustomArrayList<User>) currentData);
         }
+        isSorted = true;
     }
 
     //Поиск текущих данных
@@ -186,18 +194,18 @@ public class UserInterface {
         switch (currentDataType) {
             case 1 -> {
                 Bus bus = new BusManualInputHandler().input(); //Создаем объект-образец для сравнения.
-                int index = BinarySearch.binarySearch((CustomArrayList<Bus>) currentData, bus);
-                printSearchResult(index, bus);
+                searchResult = BinarySearch.binarySearch((CustomArrayList<Bus>) currentData, bus);
+                printSearchResult(searchResult, bus);
             }
             case 2 -> {
                 Student student = new StudentManualInputHandler().input();
-                int index = BinarySearch.binarySearch((CustomArrayList<Student>) currentData, student);
-                printSearchResult(index, student);
+                searchResult = BinarySearch.binarySearch((CustomArrayList<Student>) currentData, student);
+                printSearchResult(searchResult, student);
             }
             case 3 -> {
                 User user = new UserManualInputHandler().input();
-                int index = BinarySearch.binarySearch((CustomArrayList<User>) currentData, user);
-                printSearchResult(index, user);
+                searchResult = BinarySearch.binarySearch((CustomArrayList<User>) currentData, user);
+                printSearchResult(searchResult, user);
             }
         }
     }
@@ -240,6 +248,8 @@ public class UserInterface {
         strategies.put(2, new FileFillingStrategy<>(filePath, parts -> new BusFileInputHandler(parts).input()));
         strategies.put(3, new RandomFillingStrategy<>(new BusGeneratorInputHandler()::input));
 
+        isSorted = false;
+
         return strategies.get(method).fillData(size); //Возвращает CustomArrayList<Bus> с заполненными данными
     }
 
@@ -257,6 +267,8 @@ public class UserInterface {
         strategies.put(2, new FileFillingStrategy<>(filePath, parts -> new StudentFileInputHandler(parts).input()));
         strategies.put(3, new RandomFillingStrategy<>(new StudentGeneratorInputHandler()::input));
 
+        isSorted = false;
+
         return strategies.get(method).fillData(size);
     }
 
@@ -268,6 +280,8 @@ public class UserInterface {
         }));
         strategies.put(2, new FileFillingStrategy<>(filePath, parts -> new UserFileInputHandler(parts).input()));
         strategies.put(3, new RandomFillingStrategy<>(new UserGeneratorInputHandler()::input));
+
+        isSorted = false;
 
         return strategies.get(method).fillData(size);
     }
@@ -316,5 +330,11 @@ public class UserInterface {
     private String readFilePath() {
         System.out.print("Введите путь к файлу: ");
         return scanner.nextLine();
+    }
+
+    private void fileRecordAdd() throws IOException {
+        if (isSorted & searchResult != -2) {
+            new FileRecordAdd().record(scanner, currentData, searchResult);
+        } else System.out.println("Вы еще не выполнили сортировку и поиск");
     }
 }
