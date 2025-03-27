@@ -2,29 +2,28 @@ package strategy;
 
 
 import collection.CustomArrayList;
-
-import java.util.function.Supplier;
+import fill.InputHandler;
 
 public class RandomFillingStrategy<T> implements DataFillingStrategy<T> {
-    //Supplier<T> — это функция без аргументов, но возвращающая объект T
-    //generator — это функциональный интерфейс Supplier<T>, который генерирует случайные объекты T.
-    private final Supplier<T> generator;
-//Конструктор
-    public RandomFillingStrategy(Supplier<T> generator) {
-        //Принимает Supplier<T> и сохраняет его в поле generator
+//generator — это объект, реализующий интерфейс InputHandler<T>Б
+    //в котором есть метод input(), содающий объект T
+    private final InputHandler<T> generator;
+
+    //Конструктор
+    public RandomFillingStrategy(InputHandler<T> generator) {
         this.generator = generator;
     }
 
     @Override
-    //создаем список случайных элементов размером size
+    ////Переопределение метода fillData из интерфейса DataFillingStrategy<T>.
     public CustomArrayList<T> fillData(int size) {
-        //Создаётся пустой список CustomArrayList<T>, куда будут добавляться случайно сгенерированные объекты T.
+        //Создаёт список CustomArrayList<T>, который будет заполняться случайными объектами.
         CustomArrayList<T> result = new CustomArrayList<>();
-        //Цикл, который выполняется size раз (генерирует size случайных объектов).
+        //В цикле выполняется генерация элементов size раз
         for (int i = 0; i < size; i++) {
-            //generator.get() вызывает функцию, переданную в Supplier<T>, чтобы создать случайный объект T.
-            //Добавляет этот объект в result.
-            result.add(generator.get());
+            //Вызывается generator.input(), который генерирует случайный объект T.
+            //Полученный объект T добавляется в список result.
+            result.add(generator.input());
         }
         return result;
     }
