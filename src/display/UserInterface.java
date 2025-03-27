@@ -97,7 +97,10 @@ public class UserInterface {
             case 1 -> currentData = fillBusData(fillMethod, size, filePath);
             case 2 -> currentData = fillStudentData(fillMethod, size, filePath);
             case 3 -> currentData = fillUserData(fillMethod, size, filePath);
+
         }
+        if (size > currentData.size()) System.out.printf("В файле недостаточно данных. Размер полученного массива: " +
+                "%d", currentData.size());
         printCurrentData(); // Вывод данных на экран
         askForNextAction(); //Спрашиваем, что хотят сделать дальше
     }
@@ -182,17 +185,17 @@ public class UserInterface {
     private void searchCurrentData() {
         switch (currentDataType) {
             case 1 -> {
-                Bus bus = createBusManually(); //Создаем объект-образец для сравнения.
+                Bus bus = new BusManualInputHandler().input(); //Создаем объект-образец для сравнения.
                 int index = BinarySearch.binarySearch((CustomArrayList<Bus>) currentData, bus);
                 printSearchResult(index, bus);
             }
             case 2 -> {
-                Student student = createStudentManually();
+                Student student = new StudentManualInputHandler().input();
                 int index = BinarySearch.binarySearch((CustomArrayList<Student>) currentData, student);
                 printSearchResult(index, student);
             }
             case 3 -> {
-                User user = createUserManually();
+                User user = new UserManualInputHandler().input();
                 int index = BinarySearch.binarySearch((CustomArrayList<User>) currentData, user);
                 printSearchResult(index, user);
             }
@@ -230,7 +233,10 @@ public class UserInterface {
         //значение (DataFillingStrategy<Bus>) — объект, который выполняет заполнение.
         Map<Integer, DataFillingStrategy<Bus>> strategies = new HashMap<>();
         //каждому ключу приписываем свой метод заполнения (1- вручную, 2 - из файла, 3 - рандом)
-        strategies.put(1, new ManualFillingStrategy<>(this::createBusManually));
+        strategies.put(1, new ManualFillingStrategy<>(() -> {
+            BusManualInputHandler busManualInputHandler = new BusManualInputHandler();
+            return busManualInputHandler.input();
+        }));
         strategies.put(2, new FileFillingStrategy<>(filePath, parts -> new BusFileInputHandler(parts).input()));
         strategies.put(3, new RandomFillingStrategy<>(new BusGeneratorInputHandler()::input));
 
@@ -241,7 +247,10 @@ public class UserInterface {
         Map<Integer, DataFillingStrategy<Student>> strategies = new HashMap<>();
         //ManualFillingStrategy<> класс, отвечающий за ручной ввод данных
         //createStudentManually метод ручного ввода
-        strategies.put(1, new ManualFillingStrategy<>(this::createStudentManually));
+        strategies.put(1, new ManualFillingStrategy<>(() -> {
+            StudentManualInputHandler studentManualInputHandler = new StudentManualInputHandler();
+            return studentManualInputHandler.input();
+        }));
         //FileFillingStrategy<> стратегия заполнения из файла
         //filePath путь к файлу, parts — строка из файла, разбитая на части
         //StudentFileInputHandler(parts).input() — создает Student на основе данных из файла.
@@ -253,27 +262,14 @@ public class UserInterface {
 
     private CustomArrayList<User> fillUserData(int method, int size, String filePath) {
         Map<Integer, DataFillingStrategy<User>> strategies = new HashMap<>();
-        strategies.put(1, new ManualFillingStrategy<>(this::createUserManually));
+        strategies.put(1, new ManualFillingStrategy<>(() -> {
+            UserManualInputHandler userManualInputHandler = new UserManualInputHandler();
+            return userManualInputHandler.input();
+        }));
         strategies.put(2, new FileFillingStrategy<>(filePath, parts -> new UserFileInputHandler(parts).input()));
         strategies.put(3, new RandomFillingStrategy<>(new UserGeneratorInputHandler()::input));
 
         return strategies.get(method).fillData(size);
-    }
-
-    //Создаем объект-образец
-    private Bus createBusManually() {
-        BusManualInputHandler busManualInputHandler = new BusManualInputHandler();
-        return busManualInputHandler.input();
-    }
-
-    private Student createStudentManually() {
-        StudentManualInputHandler studentManualInputHandler = new StudentManualInputHandler();
-        return studentManualInputHandler.input();
-    }
-
-    private User createUserManually() {
-        UserManualInputHandler userManualInputHandler = new UserManualInputHandler();
-        return userManualInputHandler.input();
     }
 
     //считывание целого числа от пользователя в заданном диапазоне (min - max).
