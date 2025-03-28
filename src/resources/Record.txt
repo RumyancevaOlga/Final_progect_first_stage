@@ -17,3 +17,10 @@ User{name='Barbara', password='QhVkYcN^L', email='Barbara@zoho.com'}
 User{name='Jessica', password='AW3^@@q@ev', email='Jessica@gmail.com'}
 User{name='John', password='CTBRd4Op>$d', email='John@outlook.com'}
 Looking  for the item is found in the position: 2
+17:13:22 28/03/2025
+Bus{number=224, model='TOYOTA', mileage=38560.0}
+Bus{number=298, model='DAEWOO', mileage=830234.0}
+Bus{number=389, model='ZONDA', mileage=812744.0}
+Bus{number=390, model='VOLVO', mileage=633465.0}
+Bus{number=894, model='JAC', mileage=996130.0}
+Looking  for the item is found in the position: -1

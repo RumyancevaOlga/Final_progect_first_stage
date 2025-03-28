@@ -36,6 +36,7 @@ public class FileRecordAdd {
                 str = "Looking  for the item is found in the position: " + searchElem + "\n";
                 strToByte = str.getBytes();
                 Files.write(path, strToByte, StandardOpenOption.APPEND);
+                System.out.println("Запись успешно выполнена!");
                 flag = false;
 
             } catch (IOException | InvalidPathException e) {
