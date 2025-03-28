@@ -23,10 +23,7 @@ import strategy.ManualFillingStrategy;
 import strategy.RandomFillingStrategy;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +36,7 @@ public class UserInterface {
     private int currentDataType;  // Тип данных (1-Bus, 2-Student, 3-User)
     private boolean isRunning = true;  // Флаг работы программы
     private boolean isSorted = false; // Флаг на сортировку
+    private boolean isDefaultSorted = false;
     private int searchResult = -2; // Флаг на поиск
 
     public void menu() throws IOException {
@@ -47,7 +45,7 @@ public class UserInterface {
             int choice = readIntInput("Выберите действие: ", 1, 4); // Чтение выбора пользователя
             switch (choice) {  // Обработка выбора
                 case 1 -> fillDataMenu();    // Заполнение данных
-                case 2 -> performSorting();  // Сортировка
+                case 2 -> typeSorting();  // Сортировка
                 case 3 -> performSearch();  // Поиск
                 case 4 -> exitProgram();    // Выход
             }
@@ -126,7 +124,7 @@ public class UserInterface {
             case 1 -> typeSorting();
             case 2 -> performSearch();
             case 3 -> {
-                if (!isSorted) {
+                if (!isDefaultSorted) {
                     System.out.println("Сохранение в файл доступно только после сортировки по умолчанию.");
                 } else {
                     fileRecordAdd();
@@ -163,7 +161,7 @@ public class UserInterface {
 
     private void performSorting() throws IOException {
         if (checkEmptyData()) return;
-        typeSorting();
+        sortCurrentData();
         printCurrentData();
         askForNextAction();
     }
@@ -190,6 +188,8 @@ public class UserInterface {
                     Student::getGroupNumber);
             case 3 -> System.out.println("Сортировка невозможна: У класса \"User\" нет числового поля.");
         }
+        isSorted = true;
+        isDefaultSorted = false;
     }
 
     //Обычная сортировка текущих данных
@@ -200,6 +200,7 @@ public class UserInterface {
             case 3 -> SelectionSort.selectionSort((CustomArrayList<User>) currentData);
         }
         isSorted = true;
+        isDefaultSorted = true;
     }
 
     //Поиск текущих данных
@@ -332,19 +333,9 @@ public class UserInterface {
         }
     }
 
-    private String readFilePath() throws IOException {
+    private String readFilePath() {
         System.out.print("Введите путь к файлу: ");
-        while (true) {
-            try {
-                System.out.print("Введите путь к файлу: ");
-                String linePath = scanner.nextLine();
-                Path path = Paths.get(linePath);
-                if (Files.exists(path)) return linePath;
-                else System.out.println("Укажите правильный путь к файлу.");
-            } catch (InvalidPathException e) {
-                System.out.println("Неверно указан путь к файлу: " + e.getMessage());
-            }
-        }
+        return scanner.nextLine();
     }
 
     private void fileRecordAdd() throws IOException {
