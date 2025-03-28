@@ -255,12 +255,9 @@ public class UserInterface {
         //значение (DataFillingStrategy<Bus>) — объект, который выполняет заполнение.
         Map<Integer, DataFillingStrategy<Bus>> strategies = new HashMap<>();
         //каждому ключу приписываем свой метод заполнения (1- вручную, 2 - из файла, 3 - рандом)
-        strategies.put(1, new ManualFillingStrategy<>(() -> {
-            BusManualInputHandler busManualInputHandler = new BusManualInputHandler();
-            return busManualInputHandler.input();
-        }));
+        strategies.put(1, new ManualFillingStrategy<>(new BusManualInputHandler()));
         strategies.put(2, new FileFillingStrategy<>(filePath, parts -> new BusFileInputHandler(parts).input()));
-        strategies.put(3, new RandomFillingStrategy<>(new BusGeneratorInputHandler()::input));
+        strategies.put(3, new RandomFillingStrategy<>(new BusGeneratorInputHandler()));
 
         isSorted = false;
         searchResult = -2;
@@ -270,17 +267,12 @@ public class UserInterface {
 
     private CustomArrayList<Student> fillStudentData(int method, int size, String filePath) {
         Map<Integer, DataFillingStrategy<Student>> strategies = new HashMap<>();
-        //ManualFillingStrategy<> класс, отвечающий за ручной ввод данных
-        //createStudentManually метод ручного ввода
-        strategies.put(1, new ManualFillingStrategy<>(() -> {
-            StudentManualInputHandler studentManualInputHandler = new StudentManualInputHandler();
-            return studentManualInputHandler.input();
-        }));
+        strategies.put(1, new ManualFillingStrategy<>(new StudentManualInputHandler()));
         //FileFillingStrategy<> стратегия заполнения из файла
         //filePath путь к файлу, parts — строка из файла, разбитая на части
         //StudentFileInputHandler(parts).input() — создает Student на основе данных из файла.
         strategies.put(2, new FileFillingStrategy<>(filePath, parts -> new StudentFileInputHandler(parts).input()));
-        strategies.put(3, new RandomFillingStrategy<>(new StudentGeneratorInputHandler()::input));
+        strategies.put(3, new RandomFillingStrategy<>(new StudentGeneratorInputHandler()));
 
         isSorted = false;
         searchResult = -2;
@@ -290,12 +282,9 @@ public class UserInterface {
 
     private CustomArrayList<User> fillUserData(int method, int size, String filePath) {
         Map<Integer, DataFillingStrategy<User>> strategies = new HashMap<>();
-        strategies.put(1, new ManualFillingStrategy<>(() -> {
-            UserManualInputHandler userManualInputHandler = new UserManualInputHandler();
-            return userManualInputHandler.input();
-        }));
+        strategies.put(1, new ManualFillingStrategy<>(new UserManualInputHandler()));
         strategies.put(2, new FileFillingStrategy<>(filePath, parts -> new UserFileInputHandler(parts).input()));
-        strategies.put(3, new RandomFillingStrategy<>(new UserGeneratorInputHandler()::input));
+        strategies.put(3, new RandomFillingStrategy<>(new UserGeneratorInputHandler()));
 
         isSorted = false;
         searchResult = -2;

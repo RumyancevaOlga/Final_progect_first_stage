@@ -1,31 +1,30 @@
 package strategy;
 
 import collection.CustomArrayList;
-
-import java.util.function.Supplier;
+import fill.InputHandler;
 
 public class ManualFillingStrategy<T> implements DataFillingStrategy<T> {
-    // inputSupplier хранит функцию, которая создаёт объект T
-    //Supplier<T> inputSupplier — это функциональный интерфейс, который не принимает аргументов, но возвращает объект
-    private final Supplier<T> inputSupplier;
+    //inputHandler — это объект, реализующий интерфейс InputHandler<T>,
+    //  который конкретно обрабатывает ввод пользователя и создает объекты T.
+    private final InputHandler<T> inputHandler;
 
-    //Конструктор, принимает inputSupplier — функцию, которая генерирует объекты T на основе ввода пользователя.
-    public ManualFillingStrategy(Supplier<T> inputSupplier) {
-        //Сохраняет inputSupplier в поле класса для дальнейшего использования.
-        this.inputSupplier = inputSupplier;
+//Конструктор
+    public ManualFillingStrategy(InputHandler<T> inputHandler) {
+        this.inputHandler = inputHandler;
     }
-
+//Переопределение метода fillData из интерфейса DataFillingStrategy<T>.
+    //Создаёт список объектов T и заполняет его, запрашивая ввод size раз.
     @Override
     public CustomArrayList<T> fillData(int size) {
-        //Создаём пустой список result, куда будем добавлять введённые объекты.
+        //Создаётся новый экземпляр CustomArrayList<T>, в который будем добавлять введённые данные.
         CustomArrayList<T> result = new CustomArrayList<>();
-        //Цикл Запрашивает ввод size раз.
+        //В цикле повторяем ввод size раз (то есть запрашивает size объектов T).
         for (int i = 0; i < size; i++) {
+            //Уведомляет пользователя о том, какой по счёту элемент он вводит.
             System.out.println("Ввод элемента " + (i + 1) + ":");
-            //inputSupplier.get() запрашивает данные у пользователя и создаёт объект T
-            result.add(inputSupplier.get());
+            //Добавляем новый объект в список
+            result.add(inputHandler.input());
         }
         return result;
     }
-
 }
