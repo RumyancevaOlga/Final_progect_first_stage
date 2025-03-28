@@ -22,7 +22,7 @@ public class StudentManualInputHandler implements InputHandler<Student> {
                 int groupNumber = Integer.parseInt(scanner.nextLine());
 
                 // Ввод и парсинг среднего балла
-                System.out.print("Введите средний балл (Число от 1 до 5): ");
+                System.out.print("Введите средний балл (Число от 1 до 5, например 4.5): ");
                 double averageGrade = Double.parseDouble(scanner.nextLine());
 
                 // Ввод и парсинг номера зачетной книжки
@@ -46,7 +46,7 @@ public class StudentManualInputHandler implements InputHandler<Student> {
                 System.out.println("Ошибка: " + e.getMessage());
             } catch (NumberFormatException e) {
                 // Обработка ошибок преобразования строк в числа
-                System.out.println("Ошибка: ожидалось положительное число. Проверьте ввод.");
+                System.out.println("Ошибка: ожидалось положительное число. Проверьте ввод.\nДля ввода дробных чисел используйте точку (например, 123.45).");
             }
         }
     }

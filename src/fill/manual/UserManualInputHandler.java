@@ -46,7 +46,7 @@ public class UserManualInputHandler implements InputHandler<User> {
                 System.out.println("Ошибка: " + e.getMessage());
             } catch (NumberFormatException e) {
                 // Этот блок на всякий случай: может быть полезен, если поля поменяются на числовые
-                System.out.println("Ошибка: ожидалось положительное число. Проверьте ввод.");
+                System.out.println("Ошибка: ожидалось положительное число. Проверьте ввод.\nДля ввода дробных чисел используйте точку (например, 123.45).");
             }
         }
     }

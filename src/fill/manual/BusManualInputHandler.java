@@ -29,7 +29,7 @@ public class BusManualInputHandler implements InputHandler<Bus> {
                 String model = scanner.nextLine().trim();
 
                 // Ввод и парсинг пробега
-                System.out.print("Введите пробег (Положительное число от 1 до 1.000.000): ");
+                System.out.print("Введите пробег (Положительное число от 1 до 1.000.000, например, 12345.67): ");
                 String mileageInput = scanner.nextLine();
                 double mileage = Double.parseDouble(mileageInput);
 
@@ -50,7 +50,7 @@ public class BusManualInputHandler implements InputHandler<Bus> {
                 System.out.println("Ошибка: " + e.getMessage());
             } catch (NumberFormatException e) {
                 // Обработка ошибок преобразования строки в число
-                System.out.println("Ошибка: ожидалось положительное число. Проверьте ввод.");
+                System.out.println("Ошибка: ожидалось положительное число. Проверьте ввод.\nДля ввода дробных чисел используйте точку (например, 123.45).");
             }
         }
     }

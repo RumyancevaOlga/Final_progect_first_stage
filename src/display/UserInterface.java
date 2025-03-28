@@ -36,6 +36,7 @@ public class UserInterface {
     private int currentDataType;  // Тип данных (1-Bus, 2-Student, 3-User)
     private boolean isRunning = true;  // Флаг работы программы
     private boolean isSorted = false; // Флаг на сортировку
+    private boolean isDefaultSorted = false;
     private int searchResult = -2; // Флаг на поиск
 
     public void menu() throws IOException {
@@ -50,6 +51,7 @@ public class UserInterface {
             }
         }
     }
+
     private void exitProgram() {
         isRunning = false; //Остановка цикла
         scanner.close(); // Закрытие Scanner
@@ -101,7 +103,6 @@ public class UserInterface {
             case 1 -> currentData = fillBusData(fillMethod, size, filePath);
             case 2 -> currentData = fillStudentData(fillMethod, size, filePath);
             case 3 -> currentData = fillUserData(fillMethod, size, filePath);
-
         }
         if (size > currentData.size()) System.out.printf("В файле недостаточно данных. Размер полученного массива: " +
                 "%d", currentData.size());
@@ -122,8 +123,15 @@ public class UserInterface {
         switch (choice) {
             case 1 -> typeSorting();
             case 2 -> performSearch();
-            case 3 -> fileRecordAdd();
-            case 4 -> {}
+            case 3 -> {
+                if (!isDefaultSorted) {
+                    System.out.println("Сохранение в файл доступно только после сортировки по умолчанию.");
+                } else {
+                    fileRecordAdd();
+                }
+            }
+            case 4 -> {
+            }
         }
     }
 
@@ -138,7 +146,8 @@ public class UserInterface {
         switch (choiceSort) {
             case 1 -> performSorting();
             case 2 -> customSorting();
-            case 3 -> {}
+            case 3 -> {
+            }
         }
     }
 
@@ -163,7 +172,7 @@ public class UserInterface {
         askForNextAction();
     }
 
-//Кастомная сортировка текущих данных
+    //Кастомная сортировка текущих данных
     private void customSortCurrentData() {
         switch (currentDataType) { // В зависимости от ранее выбранного типа данных выполняем один из кейсов
             case 1 -> CustomSort.customSort( // Вызываем метод класса кастомной сортировки
@@ -180,6 +189,7 @@ public class UserInterface {
             case 3 -> System.out.println("Сортировка невозможна: У класса \"User\" нет числового поля.");
         }
         isSorted = true;
+        isDefaultSorted = false;
     }
 
     //Обычная сортировка текущих данных
@@ -190,6 +200,7 @@ public class UserInterface {
             case 3 -> SelectionSort.selectionSort((CustomArrayList<User>) currentData);
         }
         isSorted = true;
+        isDefaultSorted = true;
     }
 
     //Поиск текущих данных
@@ -341,6 +352,6 @@ public class UserInterface {
     private void fileRecordAdd() throws IOException {
         if (isSorted & searchResult != -2) {
             new FileRecordAdd().record(scanner, currentData, searchResult);
-        } else System.out.println("Вы еще не выполнили сортировку и поиск");
+        } else System.out.println("Вы еще не выполнили сортировку по умолчанию и поиск элемента.");
     }
 }
