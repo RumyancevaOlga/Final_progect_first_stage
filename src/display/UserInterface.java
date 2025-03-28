@@ -163,7 +163,7 @@ public class UserInterface {
 
     private void performSorting() throws IOException {
         if (checkEmptyData()) return;
-        sortCurrentData();
+        typeSorting();
         printCurrentData();
         askForNextAction();
     }
