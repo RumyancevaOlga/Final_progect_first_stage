@@ -3,18 +3,21 @@ package algorithms;
 import collection.CustomArrayList;
 
 import java.util.Comparator;
-import java.util.function.ToIntFunction;
+import java.util.function.ToIntFunction; // Функциональный интерфейс для извлечения значения типа int какого либо поля объекта
 
 public class CustomSort {
-    public static <T> void customSort(
-            CustomArrayList<T> list,
-            Comparator<? super T> comparator,
-            ToIntFunction<T> fieldExtractor) {
+    public static <T> void customSort( // Метод для пользовательской сортировки
+            CustomArrayList<T> list, // Передать в метод список объектов любого типа(класса)
+            Comparator<? super T> comparator, // Указать класс и гетер поля, по которому объекты будут сравниваться
+            ToIntFunction<T> fieldExtractor) { // Указать класс и гетер поля для извлечения целочисленного значения
 
-        int n = list.size();
-        // Создаем массив для отметки нечетных элементов
-        boolean[] isOdd = new boolean[n];
-        // Заполняем массив isOdd
+        int n = list.size(); //Получаем размер списка n, чтобы знать, сколько элементов нужно обработать.
+        boolean[] isOdd = new boolean[n]; // Создаем массив для отметки нечетных элементов
+        // Заполняем массив isOdd,
+        // для этого выполняем итерацию по всем элементам списка.
+        // С помощью метода "applyAsInt" интерфейса "ToIntFunction" и гетера "fieldExtractor"
+        // извлекаем из каждого объекта целочисленное значение и проверяем его на нечётность
+        // если остаток от деления на 2 не равен нулю, значение получает флаг true и отправляется в массив "isOdd"
         for (int i = 0; i < n; i++) {
             isOdd[i] = fieldExtractor.applyAsInt(list.get(i)) % 2 != 0;
         }
@@ -24,10 +27,15 @@ public class CustomSort {
             if (isOdd[i]) {
                 continue;
             }
-
+            //Сохраняем индекс минимального элемента, которым сначала считаем текущий элемент i
             int minIndex = i;
 
             // Ищем минимальный четный элемент в оставшейся части
+            // Проверяем элементы по двум условиям:
+            // - элемента не должно быть в массиве "isOdd"
+            // - и значение элемента должно быть меньше значения текущего минимального элемента
+            // Если оба условия true меняем индекс текущего минимального элемента "minIndex"
+            // на индекс проверяемого элемента "j"
             for (int j = i + 1; j < n; j++) {
                 if (!isOdd[j] &&
                         comparator.compare(list.get(j), list.get(minIndex)) < 0) {
@@ -36,9 +44,15 @@ public class CustomSort {
             }
 
             // Меняем местами только четные элементы
+            // Это условие проверяет, отличается ли индекс минимального четного элемента (minIndex) от текущего индекса (i)
             if (minIndex != i) {
+                // Создается временная переменная temp, которая хранит элемент списка,
+                // находящийся на индексе minIndex.
+                // list.get(minIndex) возвращает элемент, который нужно переместить на позицию i
                 T temp = list.get(minIndex);
+                // Выполняем замену элемента на индексе minIndex на элемент, находящийся на индексе i
                 list.set(minIndex, list.get(i));
+                // Заменяем элемент на индексе i на элемент, который был ранее сохранен в переменной temp
                 list.set(i, temp);
             }
         }

@@ -174,10 +174,13 @@ public class UserInterface {
 
     //Кастомная сортировка текущих данных
     private void customSortCurrentData() {
-        switch (currentDataType) {
-            case 1 -> CustomSort.customSort(
-                    (CustomArrayList<Bus>) currentData,
+        switch (currentDataType) { // В зависимости от ранее выбранного типа данных выполняем один из кейсов
+            case 1 -> CustomSort.customSort( // Вызываем метод класса кастомной сортировки
+                    (CustomArrayList<Bus>) currentData, // Передаём в метод текущий(полученный ранее) список объектов
+                    // Передаём в метод компаратор с указанием класса "Bus" и его метода "getNumber" для сравнения
+                    // объектов типа "Bus" по значениям поля "Number"
                     Comparator.comparingInt(Bus::getNumber),
+                    // Передаём в метод гетер класса "Bus" для извлечения из поля "Number" значения типа "int"
                     Bus::getNumber);
             case 2 -> CustomSort.customSort(
                     (CustomArrayList<Student>) currentData,
